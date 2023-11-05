@@ -1,76 +1,130 @@
-# Data preparation and understanding code
+"""Prepare and explore the past sales data downloaded from
+https://data.mendeley.com/datasets/njdkntcpc9/1
+
+Authors of the original dataset:
+    Paolo Mancuso, Veronica Piccialli, Antonio M. Sudoso (University of Rome
+    Tor Vergata)
+
+Usage:
+    ./data_prep.py
+
+Author:
+    Renkai Liu - 05.11.2023
+"""
 from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def rename_column(column_name):
-    """
-    Renames a column name to a more readable format
-
-    Args:
-        column_name: Name of the column to be renamed
-
-    Returns:
-        Renamed column name
-    """
-    new_column = column_name.replace("QTY_B", "Quantity sold for brand ")
-    new_column = new_column.replace("PROMO_B", "Promotion flag for brand ")
-    new_column = new_column.replace("_", " item ")
-    return new_column.strip()
-
-
-def prepare_data(df):
-    """
-    Prepares the data for analysis
-
-    Args:
-        df: Pandas DataFrame from the dataset
-
-    """
-    df['DATE'] = pd.to_datetime(df['DATE'])
-    df_prepared = df.rename(columns=rename_column)
-    prepared_data_file = Path(__file__).parent.joinpath('dataset_prepared.csv')
-    df_prepared.to_csv(prepared_data_file, index=False)
-    return df_prepared
-
-
 def print_df_information(df):
     """
-    Prints general information about the DataFrame
+    Print basic data information and statistics
 
     Args:
-        df: Pandas DataFrame from the dataset
+        df: Pandas DataFrame from the original dataset
     """
 
-    print("\nNumber of rows:\n")
+    print("\nNumber of rows:")
     print(df.shape[0])
-    print("\nNumber of columns:\n")
+    print("\nNumber of columns:")
     print(df.shape[1])
 
-    print("\nFirst 5 rows:\n")
+    print("\nFirst 5 rows:")
     print(df.head())
 
-    print("\nColumn labels, datatypes and value counts:\n")
+    print("\nColumn labels, datatypes and value counts:")
     print(df.info(verbose=True))
 
-    print("\nGeneral statistics:\n")
+    print("\nGeneral statistics:")
     print(df.describe())
 
-    print("\nNumber of missing values per column:\n")
-    print(df.isnull().sum())
 
-    print("\nRows with missing values:\n")
-    print(df[df.isnull().any(axis=1)])
+def find_nulls(df):
+    """
+    Find and print the information of missing values
 
-    print("\nNumber of duplicates:\n")
+    Args:
+        df: Pandas DataFrame from the original dataset
+    """
+    print("\nTotal number of missing values:")
+    print(df.isnull().sum().sum())
+
+    print("\nColumns and rows with missing values:")
+    cols_with_nulls = df.loc[:, df.isnull().any()]
+    rows_with_nulls = cols_with_nulls[cols_with_nulls.isnull().any(axis=1)]
+    print(rows_with_nulls)
+
+
+def find_duplicates(df):
+    """
+    Find and print the information of duplicated rows
+
+    Args:
+        df: Pandas DataFrame from the original dataset
+    """
+    print("\nTotal number of duplicated rows:")
     print(df.duplicated().sum())
+
+    print("\nDuplicated rows:")
+    print(df[df.duplicated(keep=False)])
+
+
+def find_unique_values(df):
+    """
+    Find and print the unique values of the promotion flags
+
+    Args:
+        df: Pandas DataFrame from the original dataset
+    """
+    print("\nUnique values of promotion flags:")
+    print(df.filter(regex='^PROMO').stack().unique())
+
+
+def modify_columns(df):
+    """
+    Change the data type of DATE column, reorder columns and remove blank
+    spaces in column labels
+
+    Args:
+        df: Pandas DataFrame from the original dataset
+
+    Returns:
+        df: A pandas DataFrame with the prepared data
+    """
+
+    # Change data type of DATE column from object to datetime
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Reorder columns and remove blank spaces in column labels
+    cols = df.columns.tolist()
+    reordered_cols = cols.copy()  # initialise reordered column labels
+    for i in range(1, (len(cols)-1)//2+1):
+        # Put columns of the quantity sold to new locations
+        reordered_cols[i*2-1] = cols[i].strip()
+        # Put columns of promotion flags to new locations
+        reordered_cols[i*2] = cols[i+(len(cols)-1)//2].strip()
+
+    return df[reordered_cols]
 
 
 if __name__ == '__main__':
+    # Load raw data into a pandas DataFrame
     raw_data_file = Path(__file__).parent.joinpath('dataset.csv')
     raw_df = pd.read_csv(raw_data_file)
+    # Set the option to display all rows
+    pd.set_option('display.max_rows', raw_df.shape[0])
 
+    # Prepare the data
     print_df_information(raw_df)
-    prepared_df = prepare_data(raw_df)
-    print_df_information(prepared_df)
+    find_nulls(raw_df)
+    find_duplicates(raw_df)
+    find_unique_values(raw_df)
+    prepared_df = modify_columns(raw_df)
+
+    # Save prepared data set
+    prepared_data_file = Path(__file__).parent.joinpath('dataset_prepared.csv')
+    prepared_df.to_csv(prepared_data_file, index=False)
+
+    sample_cols = prepared_df[['QTY_B1_1', 'QTY_B1_2', 'QTY_B1_3', 'QTY_B1_4']]
+    sample_cols.plot.box(subplots=True, grid=True)
+    plt.show()
