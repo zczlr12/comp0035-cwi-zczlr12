@@ -16,6 +16,8 @@ The two functions `find_nulls()` and `find_duplicates()` print missing values an
 
 The function `find_unique_values_of_promotion_flags()`, as the name implies, prints unique values of all columns of promotion flags. The output indicates that the presence and the absence of a promotion are represented by `1`and `0` without any inconsistent values. Unlike many datasets which use non-numeric data such as `Yes` and `No`, the promotion flags are integers which can be directly used in machine learning.
 
+At the end of data preparation, the prepared dataset `prepared_df` returned by `modify_columns()` was saved to `dataset_prepared.csv`.
+
 # 2. Product and project definition
 
 ## 2.1 Problem statement
@@ -40,7 +42,7 @@ URL for the repository: https://github.com/ucl-comp0035/comp0035-cwi-zczlr12
 
 I installed Visual Studio Code extension `flake8` as a linter so that I can see style issues by hovering over the squiggled lines. I also installed `flake8` in the virtual environment using the command `pip install flake8` in the terminal, and check for any unsolved style issues by running the command `flake8 src/coursework1/data_prep.py` before submission.
 
-After correcting the code, the result of running the linter becomes blank. The evidence is shown as follows:
+After correcting the code, the result of running the linter `flake8` (with line wrapping set at 79 characters) becomes blank. This means my final code meets Python standards and is appropriately documented. The evidence is shown as follows:
 
 ![Evidence](linter_result.png)
 
