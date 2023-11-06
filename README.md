@@ -18,3 +18,15 @@ Do not delete, move or rename the following files and folders:
 - `src/coursework1` and the files within it: `__init__.py`,`data_prep.py`
 - `src/coursework2` and the files within it: `__init__.py`,`employee.py`
 - `src/coursework2/tests` and the files within it: `__init__.py`,`test_code.py`, `test_employee.py`
+
+## Coursework 1
+
+I cloned the project from GitHub to VS Code after accepting the GitHub classroom assignment.
+
+With the opened project in VS Code, I entered `py -m venv .venv` in the terminal to create a virtual environment and used `.\.venv\Scripts\activate` to activate that virtual environment.
+
+As coursework 1 requires matplotlib for data exploration, I added this library to the original `requirement.txt` file before installing the dependencies using `pip install -r requirements.txt`.
+
+As the `.gitignore` file originally includes VS Code and virtual environments, there is no need to further modify it.
+
+More information of this project is shown in `./src/coursework1/coursework1.md`
