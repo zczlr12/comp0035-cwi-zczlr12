@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 def print_df_information(df):
     """
-    Print basic data information and statistics
+    Print basic data information of a pandas DataFrame
 
     Args:
         df: Pandas DataFrame from the original dataset
@@ -34,9 +34,6 @@ def print_df_information(df):
 
     print("\nColumn labels, datatypes and value counts:")
     print(df.info(verbose=True))
-
-    print("\nGeneral statistics:")
-    print(df.describe())
 
 
 def find_nulls(df):
@@ -108,6 +105,45 @@ def modify_columns(df):
     return df[reordered_cols]
 
 
+def general_statistics(df):
+    """
+    Print the general statistics of the dataset, and plot boxplots of the
+    quantity sold for four items
+
+    Args:
+        df: Pandas DataFrame from the prepared dataset
+    """
+    print("\nGeneral statistics of the dataset:")
+    print(df.describe())
+
+    print("\nGeneral statistics with the quantity sold only:")
+    print(df.filter(regex='^QTY').describe())
+
+    # Plot boxplots of the quantity sold for four items
+    sampled_df = df[['QTY_B1_1', 'QTY_B1_2', 'QTY_B1_3', 'QTY_B1_4']]
+    sampled_df.plot.box(subplots=True, grid=True)
+    # Save the boxplots
+    fig_file = Path(__file__).parent.joinpath('boxplots.png')
+    plt.savefig(fig_file)
+
+
+def line_chart(df):
+    """
+    Plot a line chart of the quantity sold for four items and the last two
+    months in the dataset
+
+    Args:
+        df: Pandas DataFrame from the prepared dataset
+    """
+    # Plot a line chart of the quantity sold for four items
+    df.iloc[1742:].plot(x='DATE',
+                        y=['QTY_B1_1', 'QTY_B1_2', 'QTY_B1_3', 'QTY_B1_4'],
+                        grid=True, ylim=(0, 10), ylabel='Quantity sold')
+    # Save the line chart
+    fig_file = Path(__file__).parent.joinpath('line_chart.png')
+    plt.savefig(fig_file)
+
+
 if __name__ == '__main__':
     # Load raw data into a pandas DataFrame
     raw_data_file = Path(__file__).parent.joinpath('dataset.csv')
@@ -126,6 +162,6 @@ if __name__ == '__main__':
     prepared_data_file = Path(__file__).parent.joinpath('dataset_prepared.csv')
     prepared_df.to_csv(prepared_data_file, index=False)
 
-    sample_cols = prepared_df[['QTY_B1_1', 'QTY_B1_2', 'QTY_B1_3', 'QTY_B1_4']]
-    sample_cols.plot.box(subplots=True, grid=True)
-    plt.show()
+    # Explore the data
+    general_statistics(prepared_df)
+    line_chart(prepared_df)

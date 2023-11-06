@@ -18,9 +18,9 @@ The function `find_unique_values_of_promotion_flags()`, as the name implies, pri
 
 At the end of data preparation, the prepared dataset `prepared_df` returned by `modify_columns()` was saved to `dataset_prepared.csv`.
 
-# 2. Product and project definition
+For data exploration, the first step is to print
 
-## 2.1 Problem statement
+# 2. Product and project definition
 
 ## 2.2 Product overview
 
@@ -29,8 +29,6 @@ A web app that deploys a machine learning model on a dataset representing the sa
 ## 2.3 Persona
 
 ![Persona](persona.png)
-
-## 2.4 Project goal & objectives / Questions
 
 # 3. Tools & techniques
 
@@ -45,8 +43,6 @@ I installed Visual Studio Code extension `flake8` as a linter so that I can see 
 After correcting the code, the result of running the linter `flake8` (with line wrapping set at 79 characters) becomes blank. This means my final code meets Python standards and is appropriately documented. The evidence is shown as follows:
 
 ![Evidence](linter_result.png)
-
-## 3.3 Project planning and tracking
 
 ## 3.4 Use of AI
 
