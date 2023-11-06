@@ -2,7 +2,7 @@ Author of the raw dataset: Paolo Mancuso, Veronica Piccialli, Antonio M. Sudoso 
 
 # 1. Data preparation and understanding
 
-## Explanation of code preparation & understanding
+## 1.4 Explanation of code preparation & understanding
 
 The original dataset of pasta sales data has three kinds of data: Date, the quantity sold for each brand and item, and the associated promotion flag for each item. As my web app needs to predict the future demand of different items and how the sales trend can be affected by the presence of promotions, all columns are necessary. Therefore, there is no need to remove any columns after loading the file `dataset.csv` into a pandas dataframe.
 
@@ -18,24 +18,34 @@ The function `find_unique_values_of_promotion_flags()`, as the name implies, pri
 
 # 2. Product and project definition
 
-## Problem statement
+## 2.1 Problem statement
 
-## Product overview
+## 2.2 Product overview
 
 A web app that deploys a machine learning model on a dataset representing the sales of 4 national pasta brands via a REST API to predict future pasta sales.
 
-## Persona
+## 2.3 Persona
 
 ![Persona](persona.png)
 
-## Project goal & objectives / Questions
+## 2.4 Project goal & objectives / Questions
 
 # 3. Tools & techniques
 
-## Source code control
+## 3.1 Source code control
 
-## Linting
+URL for the repository: https://github.com/ucl-comp0035/comp0035-cwi-zczlr12
 
-## Project planning and tracking
+## 3.2 Linting
 
-## Use of AI
+I installed Visual Studio Code extension `flake8` as a linter so that I can see style issues by hovering over the squiggled lines. I also installed `flake8` in the virtual environment using the command `pip install flake8` in the terminal, and check for any unsolved style issues by running the command `flake8 src/coursework1/data_prep.py` before submission.
+
+After correcting the code, the result of running the linter becomes blank. The evidence is shown as follows:
+
+![Evidence](linter_result.png)
+
+## 3.3 Project planning and tracking
+
+## 3.4 Use of AI
+
+GitHub Copilot was used to generate some of the code and docstrings after the first few characters had been typed in the data preparation code.
