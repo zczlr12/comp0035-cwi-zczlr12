@@ -69,7 +69,7 @@ def find_duplicates(df):
     print(df[df.duplicated(keep=False)])
 
 
-def find_unique_values(df):
+def find_unique_values_of_promotion_flags(df):
     """
     Find and print the unique values of the promotion flags
 
@@ -77,13 +77,14 @@ def find_unique_values(df):
         df: Pandas DataFrame from the original dataset
     """
     print("\nUnique values of promotion flags:")
+    # Print unique values of all columns with names starting with 'PROMO'
     print(df.filter(regex='^PROMO').stack().unique())
 
 
 def modify_columns(df):
     """
-    Change the data type of DATE column, reorder columns and remove blank
-    spaces in column labels
+    Change the data type of DATE column, reorder columns to put columns of the
+    same item together, and remove blank spaces in column labels
 
     Args:
         df: Pandas DataFrame from the original dataset
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     print_df_information(raw_df)
     find_nulls(raw_df)
     find_duplicates(raw_df)
-    find_unique_values(raw_df)
+    find_unique_values_of_promotion_flags(raw_df)
     prepared_df = modify_columns(raw_df)
 
     # Save prepared data set
