@@ -18,7 +18,15 @@ The function `find_unique_values_of_promotion_flags()`, as the name implies, pri
 
 At the end of data preparation, the prepared dataset `prepared_df` returned by `modify_columns()` was saved to `dataset_prepared.csv`.
 
-For data exploration, the first step is to print
+For data exploration, the first step is to print the general statistics of the data. In the code, this is done by the function `general_statistics()` which also makes four boxplots of the quantity sold for four different items (item 1 to 4 from brand 1).
+
+![Bloxplots](boxplots.png)
+
+From the general statistics printed and the boxplots shown above, There are some outliers which are much greater than many values. These are probably not wrong values as sometimes one item is purchased by many people in the glocery on a single day.
+
+The second step is to attempt explore the trend of that time series data. In `line_chart()`, the sales trends of four items for the last two months of the dataset were plotted by a line chart
+
+![Line_chart](line_chart.png)
 
 # 2. Product and project definition
 
